@@ -1,4 +1,5 @@
-﻿using GerenciadorFinanceiro.Dominio.IdBase;
+﻿using GerenciadorFinanceiro.Dominio.Entidades;
+using GerenciadorFinanceiro.Dominio.IdBase;
 
 namespace GerenciadorFinanceiro.Dominio.Interfaces
 {
@@ -12,5 +13,6 @@ namespace GerenciadorFinanceiro.Dominio.Interfaces
         Task<T> ObterPorID(Guid Id);
         Task<T> Atualizar(T entidade);
         Task StatusDeletado(T entidade);
+
     }
 }

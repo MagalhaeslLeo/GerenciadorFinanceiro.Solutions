@@ -1,4 +1,5 @@
-﻿using GerenciadorFinanceiro.Dominio.IdBase;
+﻿using GerenciadorFinanceiro.Dominio.Entidades;
+using GerenciadorFinanceiro.Dominio.IdBase;
 using GerenciadorFinanceiro.Dominio.Interfaces;
 using GerenciadorFinanceiro.Infra.DBContexto;
 using Microsoft.EntityFrameworkCore;
@@ -136,6 +137,7 @@ namespace GerenciadorFinanceiro.Infra.Repositorio
 
             }
         }
+
     }
 }
         
