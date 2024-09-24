@@ -29,18 +29,16 @@ namespace GerenciadorFinanceiro.Infra.Repositorio
                     .FromSqlRaw(@"
                                 SELECT 
                                     desp.Id,
-                                    formaPg.Descricao AS FormaPagamento,
-                                    modalidade.DescricaoModalidade AS Modalidade,
-                                    cartao.QuantidadeParcela,
-                                    cartao.ValorParcela,
-                                    cartao.Bandeira,
-                                    cartao.ValorTotal AS ValorTotalParcela,
-                                    desp.DataDespesa,
-                                    desp.ValorTotal AS ValorTotalDespesa
+                                    desp.Descricao,
+                                    desp.IdCartao,
+                                    desp.IdFormaDePagamento,
+                                    desp.Deletado,
+                                    desp.ValorTotal,
+                                    desp.DataDespesa
                                 FROM 
                                     FINDespesa desp
                                 JOIN 
-                                    DOMFormaDePagamento formaPg ON desp.IdFormaPagamento = formaPg.Id
+                                    DOMFormaDePagamento formaPg ON desp.IdFormaDePagamento = formaPg.Id
                                 JOIN 
                                     FINCartao cartao ON desp.IdCartao = cartao.Id
                                 JOIN 
