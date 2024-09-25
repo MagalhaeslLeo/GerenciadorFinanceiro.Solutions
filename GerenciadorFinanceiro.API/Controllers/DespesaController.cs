@@ -1,25 +1,50 @@
 ﻿using GerenciadorFinanceiro.Dominio.Entidades;
 using GerenciadorFinanceiro.Dominio.Interfaces;
+using GerenciadorFinanceiro.Servico.EntidadeVO;
+using GerenciadorFinanceiro.Servico.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorFinanceiro.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class DespesaController : ControllerBase
     {
-        protected readonly IRepositorioDespesa repDespesa;
-        public DespesaController(IRepositorioDespesa repDespesa)
+        protected readonly IServicoDespesa service;
+        public DespesaController(IServicoDespesa service)
         {
-            this.repDespesa = repDespesa;
+            this.service = service;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Despesa>> ObterDespesasComDetalhe()
+        [HttpGet("ObterDespesasComDetalhes")]
+        public async Task<IEnumerable<DespesaVO>> ObterDespesasComDetalhes()
         {
-            var listaDespesa = await repDespesa.ObterDespesasComDetalhes();    
-            return listaDespesa;
+            try
+            {
+                var listaDespesa = await service.ObterDespesasComDetalhes();
+                return listaDespesa;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        [HttpGet("ObterTodos")]
+        public async Task<IEnumerable<DespesaVO>> ObterTodos()
+        {
+            try
+            {
+                var listaDespesa = await service.ObterTodos();
+                return listaDespesa;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GerenciadorFinanceiro.Servico.EntidadeVO;
+﻿using GerenciadorFinanceiro.Dominio.Entidades;
+using GerenciadorFinanceiro.Servico.EntidadeVO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace GerenciadorFinanceiro.Servico.Interface
         Task<DespesaVO> ObterPorID(Guid Id);
         Task<DespesaVO> Atualizar(DespesaVO despesaVO);
         Task StatusDeletado(Guid Id);
+        Task<IEnumerable<DespesaVO>> ObterDespesasComDetalhes();
     }
 }

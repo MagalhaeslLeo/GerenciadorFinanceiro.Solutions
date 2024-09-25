@@ -12,163 +12,186 @@ using System.Threading.Tasks;
 namespace GerenciadorFinanceiro.Servico.Servico
 {
 
-        public class ServicoDespesa : IServicoDespesa
+    public class ServicoDespesa : IServicoDespesa
+
+    {
+
+        protected readonly IMapper mapper;
+
+        protected readonly IRepositorioDespesa repositorioDespesa;
+
+        public ServicoDespesa(IMapper mapper, IRepositorioDespesa repositorioDespesa)
 
         {
 
-            protected readonly IMapper mapper;
+            this.mapper = mapper;
 
-            protected readonly IRepositorioDespesa repositorioDespesa;
+            this.repositorioDespesa = repositorioDespesa;
 
-            public ServicoDespesa(IMapper mapper, IRepositorioDespesa repositorioDespesa)
+        }
+
+        public async Task AdicionarSalvar(DespesaVO despesaVO)
+
+        {
+
+            try
 
             {
 
-                this.mapper = mapper;
+                var despesaEntidade = mapper.Map<Despesa>(despesaVO);
 
-                this.repositorioDespesa = repositorioDespesa;
+                if (despesaEntidade.Id == Guid.Empty)
+
+                {
+
+                    despesaEntidade.Id = Guid.NewGuid();
+
+                }
+
+                await repositorioDespesa.AdicionarSalvar(despesaEntidade);
+
 
             }
 
-            public async Task AdicionarSalvar(DespesaVO despesaVO)
+            catch (Exception expection)
 
             {
 
-                try
-
-                {
-
-                    var despesaEntidade = mapper.Map<Despesa>(despesaVO);
-
-                    if (despesaEntidade.Id == Guid.Empty)
-
-                    {
-
-                        despesaEntidade.Id = Guid.NewGuid();
-
-                    }
-
-                    await repositorioDespesa.AdicionarSalvar(despesaEntidade);
-
-
-                }
-
-                catch (Exception expection)
-
-                {
-
-                    throw new Exception(expection.Message, expection);
-
-                }
-
-            }
-
-            public async Task<DespesaVO> Atualizar(DespesaVO despesaVO)
-
-            {
-
-                try
-
-                {
-
-                    var converterDespesa = mapper.Map<Despesa>(despesaVO);
-
-                    var despesa = await repositorioDespesa.Atualizar(converterDespesa);
-
-                    var converterDespesaVO = mapper.Map<DespesaVO>(despesa);
-
-                    return converterDespesaVO;
-
-                }
-
-                catch (Exception expection)
-
-                {
-
-                    throw new Exception(expection.Message, expection);
-
-                }
-
-            }
-
-            public async Task<DespesaVO> ObterPorID(Guid Id)
-
-            {
-
-                try
-
-                {
-
-                    var despesa = await repositorioDespesa.ObterPorID(Id);
-
-                    var despesaVO = mapper.Map<DespesaVO>(despesa);
-
-                    return despesaVO;
-
-                }
-
-                catch (Exception expection)
-
-                {
-
-                    throw new Exception(expection.Message, expection);
-
-                }
-
-            }
-
-            public async Task<IEnumerable<DespesaVO>> ObterTodos()
-
-            {
-
-                try
-
-                {
-
-                    var despesa = await repositorioDespesa.ObterTodos();
-
-                    var despesaVO = mapper.Map<IEnumerable<DespesaVO>>(despesa);
-
-                    return despesaVO;
-
-                }
-
-                catch (Exception expection)
-
-                {
-
-                    throw new Exception(expection.Message, expection);
-
-                }
-
-            }
-
-            public async Task StatusDeletado(Guid Id)
-
-            {
-
-                try
-
-                {
-
-                    var despesa = await repositorioDespesa.ObterPorID(Id);
-
-                    despesa.Deletado = true;
-
-                    await repositorioDespesa.StatusDeletado(despesa);
-
-                }
-
-                catch (Exception expection)
-
-                {
-
-                    throw new Exception(expection.Message, expection);
-
-                }
+                throw new Exception(expection.Message, expection);
 
             }
 
         }
 
+        public async Task<DespesaVO> Atualizar(DespesaVO despesaVO)
+
+        {
+
+            try
+
+            {
+
+                var converterDespesa = mapper.Map<Despesa>(despesaVO);
+
+                var despesa = await repositorioDespesa.Atualizar(converterDespesa);
+
+                var converterDespesaVO = mapper.Map<DespesaVO>(despesa);
+
+                return converterDespesaVO;
+
+            }
+
+            catch (Exception expection)
+
+            {
+
+                throw new Exception(expection.Message, expection);
+
+            }
+
+        }
+
+        public async Task<DespesaVO> ObterPorID(Guid Id)
+
+        {
+
+            try
+
+            {
+
+                var despesa = await repositorioDespesa.ObterPorID(Id);
+
+                var despesaVO = mapper.Map<DespesaVO>(despesa);
+
+                return despesaVO;
+
+            }
+
+            catch (Exception expection)
+
+            {
+
+                throw new Exception(expection.Message, expection);
+
+            }
+
+        }
+
+        public async Task<IEnumerable<DespesaVO>> ObterTodos()
+
+        {
+
+            try
+
+            {
+
+                var despesa = await repositorioDespesa.ObterTodos();
+
+                var despesaVO = mapper.Map<IEnumerable<DespesaVO>>(despesa);
+
+                return despesaVO;
+
+            }
+
+            catch (Exception expection)
+
+            {
+
+                throw new Exception(expection.Message, expection);
+
+            }
+
+        }
+
+        public async Task StatusDeletado(Guid Id)
+
+        {
+
+            try
+
+            {
+
+                var despesa = await repositorioDespesa.ObterPorID(Id);
+
+                despesa.Deletado = true;
+
+                await repositorioDespesa.StatusDeletado(despesa);
+
+            }
+
+            catch (Exception expection)
+
+            {
+
+                throw new Exception(expection.Message, expection);
+
+            }
+
+        }
+
+        public async Task<IEnumerable<DespesaVO>> ObterDespesasComDetalhes()
+        {
+            try
+
+            {
+
+                var despesa = await repositorioDespesa.ObterDespesasComDetalhes();
+
+                var despesaVO = mapper.Map<IEnumerable<DespesaVO>>(despesa);
+
+                return despesaVO;
+
+            }
+
+            catch (Exception expection)
+
+            {
+
+                throw new Exception(expection.Message, expection);
+
+            }
+        }
+
     }
+
+}
